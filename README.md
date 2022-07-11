@@ -9,3 +9,6 @@ The NdpxEstimator estimates the performance of NdpxKernel based on the:
 
 ## Datasets
 I manually collected all the data from the previous experiments.
+
+## Model
+I used a simple Transformer model to estimate
