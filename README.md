@@ -7,8 +7,9 @@ The NdpxEstimator estimates the performance of NdpxKernel based on the:
  - #outputs
  - and, #ops.
 
+As you see, it is just a simple regression model.
+
 ## Datasets
 I manually collected all the data from the previous experiments.
 
 ## Model
-I used a simple Transformer model to estimate
