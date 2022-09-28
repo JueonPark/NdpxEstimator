@@ -11,6 +11,7 @@ def build_and_compile_model(norm):
     norm,
     tf.keras.layers.Dense(64, activation='relu'),
     tf.keras.layers.Dense(64, activation='relu'),
+    tf.keras.layers.Dense(64, activation='relu'),
     tf.keras.layers.Dense(1)
   ])
 
@@ -21,12 +22,13 @@ def build_and_compile_model(norm):
 def plot_loss(history):
   plt.plot(history.history['loss'], label='loss')
   plt.plot(history.history['val_loss'], label='val_loss')
-  plt.ylim([0, 10])
+  plt.ylim([0, 100000])
   plt.xlabel('Epoch')
   plt.ylabel('Error [RealNdpxCost]')
   plt.legend()
   plt.grid(True)
   plt.show()
+  plt.savefig("train_loss.png")
 
 # Data to fetch from the workbook:
 # [x]:
@@ -69,19 +71,21 @@ history = dnn_model.fit(
   train_features,
   train_labels,
   validation_split=0.2,
-  verbose=0, epochs=100)
+  verbose=0, epochs=1000)
 
 plot_loss(history)
 
 # test
 test_results = {}
 test_results['dnn_model'] = dnn_model.evaluate(test_features, test_labels, verbose=0)
+print(test_results)
 
 pd.DataFrame(test_results, index=['Mean absolute error [RealNdpxCost]']).T
 
 # predictions
 test_predictions = dnn_model.predict(test_features).flatten()
 
+plt.clf()
 a = plt.axes(aspect='equal')
 plt.scatter(test_labels, test_predictions)
 plt.xlabel('True Values [RealNdpxCost]')
@@ -89,6 +93,8 @@ plt.ylabel('Predictions [RealNdpxCost]')
 lims = [0, 50]
 plt.xlim(lims)
 plt.ylim(lims)
-_ = plt.plot(lims, lims)
+plt.plot(lims, lims)
+plt.show()
+plt.savefig("result_graph.png")
 
 dnn_model.save('dnn_model')
