@@ -1,17 +1,41 @@
 import tensorflow as tf
+import tensorflow_addons as tfa
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+from sklearn.utils import shuffle
+from sklearn.linear_model import LogisticRegression
 from Dataset import DatasetManager
 
 np.set_printoptions(precision=3, suppress=True) # for easier read
 
+class LogisticRegression(tf.Module):
+  def __init__(self):
+    self.built = False
+
+  def __call__(self, x, train=True):
+    # Initialize the model parameters on the first call
+    if not self.built:
+      # Randomly generate the weights and the bias term
+      rand_w = tf.random.uniform(shape=[x.shape[-1], 1], seed=22)
+      rand_b = tf.random.uniform(shape=[], seed=22)
+      self.w = tf.Variable(rand_w)
+      self.b = tf.Variable(rand_b)
+      self.built = True
+    # Compute the model output
+    z = tf.add(tf.matmul(x, self.w), self.b)
+    z = tf.squeeze(z, axis=1)
+    if train:
+      return z
+    return tf.sigmoid(z)
+
 def build_and_compile_model(norm):
   model = tf.keras.Sequential([
     norm,
-    tf.keras.layers.Dense(64, activation='relu'),
-    tf.keras.layers.Dense(64, activation='relu'),
-    tf.keras.layers.Dense(64, activation='relu'),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dense(128, activation='relu'),
     tf.keras.layers.Dense(1)
   ])
 
@@ -22,7 +46,7 @@ def build_and_compile_model(norm):
 def plot_loss(history):
   plt.plot(history.history['loss'], label='loss')
   plt.plot(history.history['val_loss'], label='val_loss')
-  plt.ylim([0, 100000])
+  plt.ylim([0, 200000])
   plt.xlabel('Epoch')
   plt.ylabel('Error [RealNdpxCost]')
   plt.legend()
@@ -46,11 +70,14 @@ print(dataset)
 # for removing N/A data
 dataset = dataset.dropna()
 
+# for shuffling dataset
+dataset = shuffle(dataset)
+
 # generate training & testing dataset & labels
 train_dataset = dataset.sample(frac=0.8, random_state=0)
 train_dataset = train_dataset.astype(float)
 test_dataset = dataset.drop(train_dataset.index)
-test_dataset = train_dataset.astype(float)
+test_dataset = test_dataset.astype(float)
 
 train_features = train_dataset.copy()
 test_features = test_dataset.copy()
@@ -64,14 +91,18 @@ print(normalizer.mean.numpy())
 
 # generate model
 dnn_model = build_and_compile_model(normalizer)
+# dnn_model = LogisticRegression(penalty='l1', C=0.1)
 dnn_model.summary()
 
 # train model
+# tqdm_callback = tfa.callbacks.TQDMProgressBar()
 history = dnn_model.fit(
   train_features,
   train_labels,
+  # callbacks=[tqdm_callback],
   validation_split=0.2,
-  verbose=0, epochs=1000)
+  verbose=1,
+  epochs=1000)
 
 plot_loss(history)
 
@@ -87,10 +118,10 @@ test_predictions = dnn_model.predict(test_features).flatten()
 
 plt.clf()
 a = plt.axes(aspect='equal')
-plt.scatter(test_labels, test_predictions)
-plt.xlabel('True Values [RealNdpxCost]')
-plt.ylabel('Predictions [RealNdpxCost]')
-lims = [0, 50]
+plt.scatter(test_predictions, test_labels)
+plt.xlabel('Predictions [RealNdpxCost]')
+plt.ylabel('True Values [RealNdpxCost]')
+lims = [0, 1750000]
 plt.xlim(lims)
 plt.ylim(lims)
 plt.plot(lims, lims)
