@@ -37,7 +37,6 @@ def build_and_compile_model(norm):
     tf.keras.layers.Dense(128, activation='relu'),
     tf.keras.layers.BatchNormalization(),
     tf.keras.layers.Dense(128, activation='relu'),
-    tf.keras.layers.BatchNormalization(),
     tf.keras.layers.Dense(128, activation='relu'),
     tf.keras.layers.Dense(1)
   ])
@@ -49,7 +48,7 @@ def build_and_compile_model(norm):
 def plot_loss(history):
   plt.plot(history.history['loss'], label='loss')
   plt.plot(history.history['val_loss'], label='val_loss')
-  plt.ylim([0, 200000])
+  plt.ylim([0, 150000])
   plt.xlabel('Epoch')
   plt.ylabel('Error [RealNdpxCost]')
   plt.legend()
