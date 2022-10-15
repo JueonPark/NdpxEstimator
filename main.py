@@ -33,8 +33,11 @@ def build_and_compile_model(norm):
   model = tf.keras.Sequential([
     norm,
     tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.BatchNormalization(),
     tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.BatchNormalization(),
     tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.BatchNormalization(),
     tf.keras.layers.Dense(128, activation='relu'),
     tf.keras.layers.Dense(1)
   ])
