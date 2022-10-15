@@ -23,6 +23,14 @@ The NdpxEstimator estimates the performance of NdpxKernel based on the:
 As you see, it is just a simple regression model.
 
 ## Datasets
-I manually collected all the data from the previous experiments.
+I manually collected all the data from the previous experiments. The experiments were held on BERT Large, BERT Base, Resnet18, MobileNet v2, Transformer Base, and Vision Transformer.
 
 ## Model
+Currently just using a bunch of dense layers stacked
+
+## Result
+The loss is as the followings:
+![loss](train_loss.png)
+
+The prediction result is as the followings:
+![prediction](result_graph.png)
