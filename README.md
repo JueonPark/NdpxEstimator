@@ -1,5 +1,5 @@
 # NDPX Performance Estimator
-To cite NdpxEstimator, cite
+To cite NDPX, cite
 ``` bibtex
 @ARTICLE{9609620,
   author={Ham, Hyungkyu and Cho, Hyunuk and Kim, Minjae and Park, Jueon and Hong, Jeongmin and Sung, Hyojin and Park, Eunhyeok and Lim, Euicheol and Kim, Gwangsun},  
