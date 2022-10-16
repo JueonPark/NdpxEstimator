@@ -64,9 +64,15 @@ def plot_loss(history):
 # - #op
 # y:
 # - RealNdpxCost
-dataset = DatasetManager.fetch_data()
-dataset.columns = dataset.iloc[0]
-dataset = dataset[1:]
+
+# if using xlsx data
+# dataset = DatasetManager.fetch_xlsx_data()
+# dataset.columns = dataset.iloc[0]
+# dataset = dataset[1:]
+
+# else
+dataset = DatasetManager.fetch_csv_data()
+
 print(dataset)
 
 # for removing N/A data
