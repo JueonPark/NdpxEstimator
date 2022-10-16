@@ -30,7 +30,9 @@ Currently just using a bunch of dense layers stacked
 
 ## Result
 The loss is as the followings:
+
 ![loss](train_loss.png)
 
 The prediction result is as the followings:
+
 ![prediction](result_graph.png)
