@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.utils import shuffle
-from sklearn.linear_model import LogisticRegression
+# from sklearn.linear_model import LogisticRegression
 from Dataset import DatasetManager
 
 np.set_printoptions(precision=3, suppress=True) # for easier read
