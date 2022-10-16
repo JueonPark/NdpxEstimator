@@ -97,11 +97,9 @@ dnn_model = build_and_compile_model(normalizer)
 dnn_model.summary()
 
 # train model
-# tqdm_callback = tfa.callbacks.TQDMProgressBar()
 history = dnn_model.fit(
   train_features,
   train_labels,
-  # callbacks=[tqdm_callback],
   validation_split=0.2,
   verbose=1,
   epochs=1000)
