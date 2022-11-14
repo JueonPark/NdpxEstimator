@@ -35,8 +35,7 @@ def plot_prediction(test_predictions, test_labels):
   plt.plot(lims, lims)
   plt.tight_layout()
   plt.show()
-  plt.savefig("result_graph.png")
-
+  plt.savefig("prediction.png")
 
 # Data to fetch from the workbook:
 # [x]:
@@ -75,14 +74,12 @@ test_features = test_dataset.copy()
 train_labels = train_features.pop('RealNdpxCost')
 test_labels = test_features.pop('RealNdpxCost')
 
-# normalizer = tf.keras.layers.Normalization(axis=-1)
-# normalizer = tf.keras.layers.experimental.preprocessing.Normalization(axis=-1)
-# normalizer.adapt(np.array(train_features))
-# print(normalizer.mean.numpy())
+normalizer = tf.keras.layers.experimental.preprocessing.Normalization(axis=-1)
+normalizer.adapt(np.array(train_features))
+print(normalizer.mean.numpy())
 
 # # generate model
-# dnn_model = build_and_compile_model(normalizer)
-dnn_model = LogisticRegression()
+dnn_model = build_and_compile_model(normalizer)
 dnn_model.summary()
 
 # train model
