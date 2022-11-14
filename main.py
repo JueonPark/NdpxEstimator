@@ -7,7 +7,7 @@ from sklearn.utils import shuffle
 # from sklearn.linear_model import LogisticRegression
 
 from Dataset import DatasetManager
-from Model import build_and_compile_model
+from Model import *
 
 np.set_printoptions(precision=3, suppress=True) # for easier read
 
@@ -64,8 +64,7 @@ dataset = dataset.dropna()
 dataset = shuffle(dataset)
 
 # generate training & testing dataset & labels
-# train_dataset = dataset.sample(frac=0.8, random_state=0)
-train_dataset = dataset
+train_dataset = dataset.sample(frac=0.8, random_state=1)
 train_dataset = train_dataset.astype(float)
 test_dataset = dataset.drop(train_dataset.index)
 test_dataset = test_dataset.astype(float)
@@ -77,12 +76,13 @@ train_labels = train_features.pop('RealNdpxCost')
 test_labels = test_features.pop('RealNdpxCost')
 
 # normalizer = tf.keras.layers.Normalization(axis=-1)
-normalizer = tf.keras.layers.experimental.preprocessing.Normalization(axis=-1)
-normalizer.adapt(np.array(train_features))
-print(normalizer.mean.numpy())
+# normalizer = tf.keras.layers.experimental.preprocessing.Normalization(axis=-1)
+# normalizer.adapt(np.array(train_features))
+# print(normalizer.mean.numpy())
 
-# generate model
-dnn_model = build_and_compile_model(normalizer)
+# # generate model
+# dnn_model = build_and_compile_model(normalizer)
+dnn_model = LogisticRegression()
 dnn_model.summary()
 
 # train model
