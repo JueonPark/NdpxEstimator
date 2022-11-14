@@ -39,6 +39,7 @@ def plot_loss(history):
   plt.ylabel('Error [RealNdpxCost]')
   plt.legend()
   plt.grid(True)
+  plt.tight_layout()
   plt.show()
   plt.savefig("train_loss.png")
 
@@ -52,6 +53,7 @@ def plot_prediction(test_predictions, test_labels):
   plt.xlim(lims)
   plt.ylim(lims)
   plt.plot(lims, lims)
+  plt.tight_layout()
   plt.show()
   plt.savefig("result_graph.png")
 
@@ -111,6 +113,7 @@ history = dnn_model.fit(
   verbose=1,
   epochs=2000)
 
+# draw loss
 plot_loss(history)
 
 # test
