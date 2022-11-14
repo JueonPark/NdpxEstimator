@@ -5,7 +5,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.utils import shuffle
 # from sklearn.linear_model import LogisticRegression
+
 from Dataset import DatasetManager
+from Model import build_and_compile_model
 
 np.set_printoptions(precision=3, suppress=True) # for easier read
 
@@ -28,22 +30,6 @@ class LogisticRegression(tf.Module):
     if train:
       return z
     return tf.sigmoid(z)
-
-def build_and_compile_model(norm):
-  model = tf.keras.Sequential([
-    norm,
-    tf.keras.layers.Dense(128, activation='relu'),
-    tf.keras.layers.BatchNormalization(),
-    tf.keras.layers.Dense(128, activation='relu'),
-    tf.keras.layers.BatchNormalization(),
-    tf.keras.layers.Dense(128, activation='relu'),
-    tf.keras.layers.Dense(128, activation='relu'),
-    tf.keras.layers.Dense(1)
-  ])
-
-  model.compile(loss='mean_absolute_error',
-                optimizer=tf.keras.optimizers.Adam(0.001))
-  return model
 
 def plot_loss(history):
   plt.plot(history.history['loss'], label='loss')
@@ -93,7 +79,8 @@ test_features = test_dataset.copy()
 train_labels = train_features.pop('RealNdpxCost')
 test_labels = test_features.pop('RealNdpxCost')
 
-normalizer = tf.keras.layers.Normalization(axis=-1)
+# normalizer = tf.keras.layers.Normalization(axis=-1)
+normalizer = tf.keras.layers.experimental.preprocessing.Normalization(axis=-1)
 normalizer.adapt(np.array(train_features))
 print(normalizer.mean.numpy())
 
@@ -108,7 +95,7 @@ history = dnn_model.fit(
   train_labels,
   validation_split=0.2,
   verbose=1,
-  epochs=1000)
+  epochs=5000)
 
 plot_loss(history)
 
