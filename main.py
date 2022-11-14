@@ -95,7 +95,7 @@ history = dnn_model.fit(
   train_labels,
   validation_split=0.2,
   verbose=1,
-  epochs=5000)
+  epochs=2000)
 
 plot_loss(history)
 
