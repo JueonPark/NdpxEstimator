@@ -11,26 +11,6 @@ from Model import build_and_compile_model
 
 np.set_printoptions(precision=3, suppress=True) # for easier read
 
-class LogisticRegression(tf.Module):
-  def __init__(self):
-    self.built = False
-
-  def __call__(self, x, train=True):
-    # Initialize the model parameters on the first call
-    if not self.built:
-      # Randomly generate the weights and the bias term
-      rand_w = tf.random.uniform(shape=[x.shape[-1], 1], seed=22)
-      rand_b = tf.random.uniform(shape=[], seed=22)
-      self.w = tf.Variable(rand_w)
-      self.b = tf.Variable(rand_b)
-      self.built = True
-    # Compute the model output
-    z = tf.add(tf.matmul(x, self.w), self.b)
-    z = tf.squeeze(z, axis=1)
-    if train:
-      return z
-    return tf.sigmoid(z)
-
 def plot_loss(history):
   plt.plot(history.history['loss'], label='loss')
   plt.plot(history.history['val_loss'], label='val_loss')
@@ -84,7 +64,8 @@ dataset = dataset.dropna()
 dataset = shuffle(dataset)
 
 # generate training & testing dataset & labels
-train_dataset = dataset.sample(frac=0.8, random_state=0)
+# train_dataset = dataset.sample(frac=0.8, random_state=0)
+train_dataset = dataset
 train_dataset = train_dataset.astype(float)
 test_dataset = dataset.drop(train_dataset.index)
 test_dataset = test_dataset.astype(float)
@@ -102,7 +83,6 @@ print(normalizer.mean.numpy())
 
 # generate model
 dnn_model = build_and_compile_model(normalizer)
-# dnn_model = LogisticRegression(penalty='l1', C=0.1)
 dnn_model.summary()
 
 # train model
@@ -111,7 +91,7 @@ history = dnn_model.fit(
   train_labels,
   validation_split=0.2,
   verbose=1,
-  epochs=2000)
+  epochs=1000)
 
 # draw loss
 plot_loss(history)
