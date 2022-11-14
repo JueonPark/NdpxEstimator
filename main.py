@@ -34,13 +34,29 @@ class LogisticRegression(tf.Module):
 def plot_loss(history):
   plt.plot(history.history['loss'], label='loss')
   plt.plot(history.history['val_loss'], label='val_loss')
-  plt.ylim([0, 150000])
+  plt.ylim([0, 300000])
   plt.xlabel('Epoch')
   plt.ylabel('Error [RealNdpxCost]')
   plt.legend()
   plt.grid(True)
+  plt.tight_layout()
   plt.show()
   plt.savefig("train_loss.png")
+
+def plot_prediction(test_predictions, test_labels):
+  plt.clf()
+  a = plt.axes(aspect='equal')
+  plt.scatter(test_predictions, test_labels)
+  plt.xlabel('Predictions [RealNdpxCost]')
+  plt.ylabel('True Values [RealNdpxCost]')
+  lims = [0, 1000000]
+  plt.xlim(lims)
+  plt.ylim(lims)
+  plt.plot(lims, lims)
+  plt.tight_layout()
+  plt.show()
+  plt.savefig("result_graph.png")
+
 
 # Data to fetch from the workbook:
 # [x]:
@@ -97,6 +113,7 @@ history = dnn_model.fit(
   verbose=1,
   epochs=2000)
 
+# draw loss
 plot_loss(history)
 
 # test
@@ -108,17 +125,7 @@ pd.DataFrame(test_results, index=['Mean absolute error [RealNdpxCost]']).T
 
 # predictions
 test_predictions = dnn_model.predict(test_features).flatten()
+plot_prediction(test_predictions, test_labels)
 
-plt.clf()
-a = plt.axes(aspect='equal')
-plt.scatter(test_predictions, test_labels)
-plt.xlabel('Predictions [RealNdpxCost]')
-plt.ylabel('True Values [RealNdpxCost]')
-lims = [0, 1750000]
-plt.xlim(lims)
-plt.ylim(lims)
-plt.plot(lims, lims)
-plt.show()
-plt.savefig("result_graph.png")
-
+# save model
 dnn_model.save('dnn_model')

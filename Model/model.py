@@ -8,12 +8,12 @@ def build_and_compile_model(norm):
     # tf.keras.layers.Dropout(0.5),
     tf.keras.layers.Dense(128, activation='relu'),
     tf.keras.layers.BatchNormalization(),
-    # tf.keras.layers.Dropout(0.5),
+    tf.keras.layers.Dropout(0.5),
     tf.keras.layers.Dense(128, activation='relu'),
     tf.keras.layers.BatchNormalization(),
     tf.keras.layers.Dropout(0.5),
     tf.keras.layers.Dense(128, activation='relu'),
-    tf.keras.layers.Dropout(0.5),
+    # tf.keras.layers.Dropout(0.5),
     tf.keras.layers.Dense(1)
   ])
 
