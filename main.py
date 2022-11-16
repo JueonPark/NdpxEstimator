@@ -27,7 +27,7 @@ def plot_prediction(test_predictions, test_labels):
   plt.clf()
   a = plt.axes(aspect='equal')
   plt.scatter(test_predictions, test_labels)
-  plt.xlabel('Predictions [RealNdpxCost]')
+  plt.xlabel('Predictions [PredictNdpxCost]')
   plt.ylabel('True Values [RealNdpxCost]')
   lims = [0, 1000000]
   plt.xlim(lims)
