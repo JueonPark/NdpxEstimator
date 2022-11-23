@@ -35,4 +35,4 @@ The loss is as the followings:
 
 The prediction result is as the followings:
 
-![prediction](result_graph.png)
+![prediction](prediction.png)
