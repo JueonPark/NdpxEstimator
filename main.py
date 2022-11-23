@@ -37,6 +37,32 @@ def plot_prediction(test_predictions, test_labels):
   plt.show()
   plt.savefig("train_prediction.pdf")
 
+def plot_all(history, test_predictions, test_labels):
+  # plot loss first
+  plt.subplot(2, 2, 1)
+  plt.plot(history.history['loss'], label='loss', color='#225ea8')
+  plt.plot(history.history['val_loss'], label='val_loss', color="#fe9929")
+  plt.ylim([0, 200000])
+  plt.xlabel('Epoch')
+  plt.ylabel('Error [Real Ndpx Cost]')
+  plt.legend()
+  plt.grid(True)
+  plt.tight_layout()
+  # then, plot predictions
+  plt.subplot(2, 2, 2)
+  plt.axes(aspect='equal')
+  plt.scatter(test_predictions, test_labels, c='#225ea8')
+  plt.xlabel('Predictions [Predicted Ndpx Cost]')
+  plt.ylabel('True Values [Real Ndpx Cost]')
+  lims = [0, 1000000]
+  plt.xlim(lims)
+  plt.ylim(lims)
+  plt.plot(lims, lims)
+  plt.tight_layout()
+  # plot all
+  plt.show()
+  plt.savefig("overall_results.pdf")
+
 # Data to fetch from the workbook:
 # [x]:
 # - ShapeSize
@@ -88,22 +114,27 @@ history = dnn_model.fit(
   train_labels,
   validation_split=0.2,
   verbose=1,
-  epochs=1000
+  epochs=800
 )
 
 # draw loss
 plot_loss(history)
 
 # test
-test_results = {}
-test_results['dnn_model'] = dnn_model.evaluate(test_features, test_labels, verbose=0)
-print(test_results)
-
-pd.DataFrame(test_results, index=['Mean absolute error [RealNdpxCost]']).T
-
+# test_results = {}
+# test_results['dnn_model'] = dnn_model.evaluate(test_features, test_labels, verbose=0)
 # predictions
-test_predictions = dnn_model.predict(test_features).flatten()
-plot_prediction(test_predictions, test_labels)
+# test_predictions = dnn_model.predict(test_features).flatten()
+# plot_prediction(test_predictions, test_labels)
+prediction_results = {}
+dataset_labels = dataset.pop('RealNdpxCost')
+prediction_results['dnn_model'] = dnn_model.evaluate(dataset, dataset_labels, verbose=0)
+print(prediction_results)
+pd.DataFrame(prediction_results, index=['Mean absolute error [RealNdpxCost]']).T
+dataset_predictions = dnn_model.predict(dataset).flatten()
+plot_prediction(dataset_predictions, dataset_labels)
+
+plot_all(history, dataset_predictions, dataset_labels)
 
 # save model
 dnn_model.save('dnn_model')
