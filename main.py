@@ -12,30 +12,30 @@ from Model import *
 np.set_printoptions(precision=3, suppress=True) # for easier read
 
 def plot_loss(history):
-  plt.plot(history.history['loss'], label='loss')
-  plt.plot(history.history['val_loss'], label='val_loss')
+  plt.plot(history.history['loss'], label='loss', color='#225ea8')
+  plt.plot(history.history['val_loss'], label='val_loss', color="#fe9929")
   plt.ylim([0, 200000])
   plt.xlabel('Epoch')
-  plt.ylabel('Error [RealNdpxCost]')
+  plt.ylabel('Error [Real Ndpx Cost]')
   plt.legend()
   plt.grid(True)
   plt.tight_layout()
   plt.show()
-  plt.savefig("train_loss.png")
+  plt.savefig("train_loss.pdf")
 
 def plot_prediction(test_predictions, test_labels):
   plt.clf()
-  a = plt.axes(aspect='equal')
-  plt.scatter(test_predictions, test_labels)
-  plt.xlabel('Predictions [PredictNdpxCost]')
-  plt.ylabel('True Values [RealNdpxCost]')
+  plt.axes(aspect='equal')
+  plt.scatter(test_predictions, test_labels, c='#225ea8')
+  plt.xlabel('Predictions [Predicted Ndpx Cost]')
+  plt.ylabel('True Values [Real Ndpx Cost]')
   lims = [0, 1000000]
   plt.xlim(lims)
   plt.ylim(lims)
   plt.plot(lims, lims)
   plt.tight_layout()
   plt.show()
-  plt.savefig("train_prediction.png")
+  plt.savefig("train_prediction.pdf")
 
 # Data to fetch from the workbook:
 # [x]:

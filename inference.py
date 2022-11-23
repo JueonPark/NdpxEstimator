@@ -11,17 +11,17 @@ from Model import build_and_compile_model
 
 def plot_prediction(test_predictions, test_labels):
   plt.clf()
-  a = plt.axes(aspect='equal')
-  plt.scatter(test_predictions, test_labels)
-  plt.xlabel('Predictions [PredictNdpxCost]')
-  plt.ylabel('True Values [RealNdpxCost]')
+  plt.axes(aspect='equal')
+  plt.scatter(test_predictions, test_labels, c="#225ea8")
+  plt.xlabel('Predictions [Predicted Ndpx Cost]')
+  plt.ylabel('True Values [Real Ndpx Cost]')
   lims = [0, 1000000]
   plt.xlim(lims)
   plt.ylim(lims)
   plt.plot(lims, lims)
   plt.tight_layout()
   plt.show()
-  plt.savefig("prediction.png")
+  plt.savefig("prediction.pdf")
 
 
 # Data to fetch from the workbook:

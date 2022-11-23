@@ -34,8 +34,8 @@ def build_and_compile_model(norm):
     tf.keras.layers.Dense(1)
   ])
 
-  # loss_fn = tf.keras.losses.BinaryCrossentropy()
-  # loss_fn = tf.keras.losses.MeanSquaredError
+  # loss_fn = tf.keras.losses.CategoricalCrossentropy()
+  # loss_fn = tf.keras.losses.MeanSquaredError()
   loss_fn = tf.keras.losses.MeanAbsoluteError()
   model.compile(loss=loss_fn,
                 optimizer=tf.keras.optimizers.Adam(0.001))
