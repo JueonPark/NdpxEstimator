@@ -14,7 +14,7 @@ np.set_printoptions(precision=3, suppress=True) # for easier read
 def plot_loss(history):
   plt.plot(history.history['loss'], label='loss')
   plt.plot(history.history['val_loss'], label='val_loss')
-  plt.ylim([0, 300000])
+  plt.ylim([0, 200000])
   plt.xlabel('Epoch')
   plt.ylabel('Error [RealNdpxCost]')
   plt.legend()
@@ -35,7 +35,7 @@ def plot_prediction(test_predictions, test_labels):
   plt.plot(lims, lims)
   plt.tight_layout()
   plt.show()
-  plt.savefig("prediction.png")
+  plt.savefig("train_prediction.png")
 
 # Data to fetch from the workbook:
 # [x]:
@@ -88,7 +88,8 @@ history = dnn_model.fit(
   train_labels,
   validation_split=0.2,
   verbose=1,
-  epochs=1000)
+  epochs=1000
+)
 
 # draw loss
 plot_loss(history)

@@ -21,7 +21,7 @@ def plot_prediction(test_predictions, test_labels):
   plt.plot(lims, lims)
   plt.tight_layout()
   plt.show()
-  plt.savefig("result_graph.png")
+  plt.savefig("prediction.png")
 
 
 # Data to fetch from the workbook:
