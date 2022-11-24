@@ -43,9 +43,6 @@ dataset = DatasetManager.fetch_csv_data()
 
 print(dataset)
 
-# for removing N/A data
-dataset = dataset.dropna()
-
 # for shuffling dataset
 dataset = shuffle(dataset)
 
