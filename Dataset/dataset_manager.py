@@ -18,6 +18,12 @@ class DatasetManager:
 
   def fetch_csv_data():
     dataset = pd.read_csv("Dataset/ndpx_dataset.csv")
+    dataset = dataset.dropna()
+    return dataset
+
+  def fetch_data(input):
+    dataset = pd.read_csv(input)
+    dataset = dataset.dropna()
     return dataset
 
 if __name__ == "__main__":
