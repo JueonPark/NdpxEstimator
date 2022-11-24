@@ -2,6 +2,7 @@ import tensorflow as tf
 import tensorflow_addons as tfa
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
 import pandas as pd
 from sklearn.utils import shuffle
 # from sklearn.linear_model import LogisticRegression
@@ -39,38 +40,50 @@ def plot_prediction(test_predictions, test_labels):
 
 def plot_all(history, test_predictions, test_labels):
   plt.clf()
+  # cm = 1/2.54 
   plt.figure(figsize=(18,8), tight_layout=True)
   loss_ax = plt.subplot2grid((1, 2), (0, 0), colspan=1, rowspan=1)
-  loss_ax.set_title("Training Loss", fontsize=32)
+  # loss_ax.set_title("Training Loss", fontsize=36)
   pred_ax = plt.subplot2grid((1, 2), (0, 1), colspan=1, rowspan=2)
-  pred_ax.set_title("Prediction", fontsize=32)
+  # pred_ax.set_title("Prediction", fontsize=36)
   
   # plot loss first
-  # loss_ax.set_title("Training Loss")
   loss_ax.plot(history.history['loss'], label='loss', color='#225ea8')
   loss_ax.plot(history.history['val_loss'], label='val_loss', color="#fe9929")
+  def killo(x, pos):
+    'The two args are the value and tick position'
+    return '%dK' % (x * 1e-3)
+  formatter = FuncFormatter(killo)
+  loss_ax.yaxis.set_major_formatter(formatter)
   loss_ax.set_ylim([0, 200000])
-  loss_ax.set_xlabel('Epoch', fontsize=20)
-  loss_ax.set_ylabel('Error [Real NDPX Cost]', fontsize=20)
-  loss_ax.tick_params(labelsize=14)
-  loss_ax.legend()
+  loss_ax.set_xlabel('Epoch', fontsize=28)
+  loss_ax.set_ylabel('Error', fontsize=28)
+  loss_ax.tick_params(labelsize=28)
+  loss_ax.legend(fontsize=28)
   loss_ax.grid(True)
-  # loss_ax.tight_layout()
+  
   # then, plot predictions
-  # plt.subplot(1, 2, 2)
-  # pred_ax.set_title('Prediction')
-  # pred_ax.axes(aspect='equal')
   pred_ax.scatter(test_predictions, test_labels, c='#225ea8')
-  pred_ax.set_xlabel('Predictions [Predicted NDPX Cost]', fontsize=20)
-  pred_ax.set_ylabel('True Values [Real NDPX Cost]', fontsize=20)
+  pred_ax.set_xlabel('Predicted NDPX Cycle', fontsize=28)
+  pred_ax.set_ylabel('Real NDPX Cycle', fontsize=28)
   lims = [0, 1000000]
   pred_ax.set_xlim(lims)
   pred_ax.set_ylim(lims)
-  pred_ax.tick_params(labelsize=14)
+  def millions(x, pos):
+    'The two args are the value and tick position'
+    return '%1.1fM' % (x * 1e-6)
+
+  formatter = FuncFormatter(millions)
+  pred_ax.xaxis.set_major_formatter(formatter)
+  pred_ax.yaxis.set_major_formatter(formatter)
+  # remove the first and the last labels
+  xticks = pred_ax.xaxis.get_major_ticks()
+  xticks[0].set_visible(False)
+  yticks = pred_ax.yaxis.get_major_ticks()
+  yticks[0].set_visible(False)
+
+  pred_ax.tick_params(labelsize=28)
   pred_ax.plot(lims, lims)
-  # pred_ax.tight_layout()
-  # plot all
-  # fig.tight_layout()
   plt.show()
   plt.savefig("overall_results.pdf")
 
@@ -125,7 +138,7 @@ history = dnn_model.fit(
   train_labels,
   validation_split=0.2,
   verbose=1,
-  epochs=400
+  epochs=500
 )
 
 # draw loss
