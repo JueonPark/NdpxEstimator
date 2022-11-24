@@ -16,7 +16,7 @@ def plot_loss(history):
   plt.plot(history.history['val_loss'], label='val_loss', color="#fe9929")
   plt.ylim([0, 200000])
   plt.xlabel('Epoch')
-  plt.ylabel('Error [Real Ndpx Cost]')
+  plt.ylabel('Error [Mean Absolute Error]')
   plt.legend()
   plt.grid(True)
   plt.tight_layout()
@@ -27,8 +27,8 @@ def plot_prediction(test_predictions, test_labels):
   plt.clf()
   plt.axes(aspect='equal')
   plt.scatter(test_predictions, test_labels, c='#225ea8')
-  plt.xlabel('Predictions [Predicted Ndpx Cost]')
-  plt.ylabel('True Values [Real Ndpx Cost]')
+  plt.xlabel('Predictions [Predicted NDPX Cost]')
+  plt.ylabel('True Values [Real NDPX Cost]')
   lims = [0, 1000000]
   plt.xlim(lims)
   plt.ylim(lims)
@@ -38,28 +38,39 @@ def plot_prediction(test_predictions, test_labels):
   plt.savefig("train_prediction.pdf")
 
 def plot_all(history, test_predictions, test_labels):
+  plt.clf()
+  plt.figure(figsize=(18,8), tight_layout=True)
+  loss_ax = plt.subplot2grid((1, 2), (0, 0), colspan=1, rowspan=1)
+  loss_ax.set_title("Training Loss", fontsize=32)
+  pred_ax = plt.subplot2grid((1, 2), (0, 1), colspan=1, rowspan=2)
+  pred_ax.set_title("Prediction", fontsize=32)
+  
   # plot loss first
-  plt.subplot(2, 2, 1)
-  plt.plot(history.history['loss'], label='loss', color='#225ea8')
-  plt.plot(history.history['val_loss'], label='val_loss', color="#fe9929")
-  plt.ylim([0, 200000])
-  plt.xlabel('Epoch')
-  plt.ylabel('Error [Real Ndpx Cost]')
-  plt.legend()
-  plt.grid(True)
-  plt.tight_layout()
+  # loss_ax.set_title("Training Loss")
+  loss_ax.plot(history.history['loss'], label='loss', color='#225ea8')
+  loss_ax.plot(history.history['val_loss'], label='val_loss', color="#fe9929")
+  loss_ax.set_ylim([0, 200000])
+  loss_ax.set_xlabel('Epoch', fontsize=20)
+  loss_ax.set_ylabel('Error [Real NDPX Cost]', fontsize=20)
+  loss_ax.tick_params(labelsize=14)
+  loss_ax.legend()
+  loss_ax.grid(True)
+  # loss_ax.tight_layout()
   # then, plot predictions
-  plt.subplot(2, 2, 2)
-  plt.axes(aspect='equal')
-  plt.scatter(test_predictions, test_labels, c='#225ea8')
-  plt.xlabel('Predictions [Predicted Ndpx Cost]')
-  plt.ylabel('True Values [Real Ndpx Cost]')
+  # plt.subplot(1, 2, 2)
+  # pred_ax.set_title('Prediction')
+  # pred_ax.axes(aspect='equal')
+  pred_ax.scatter(test_predictions, test_labels, c='#225ea8')
+  pred_ax.set_xlabel('Predictions [Predicted NDPX Cost]', fontsize=20)
+  pred_ax.set_ylabel('True Values [Real NDPX Cost]', fontsize=20)
   lims = [0, 1000000]
-  plt.xlim(lims)
-  plt.ylim(lims)
-  plt.plot(lims, lims)
-  plt.tight_layout()
+  pred_ax.set_xlim(lims)
+  pred_ax.set_ylim(lims)
+  pred_ax.tick_params(labelsize=14)
+  pred_ax.plot(lims, lims)
+  # pred_ax.tight_layout()
   # plot all
+  # fig.tight_layout()
   plt.show()
   plt.savefig("overall_results.pdf")
 
@@ -114,26 +125,27 @@ history = dnn_model.fit(
   train_labels,
   validation_split=0.2,
   verbose=1,
-  epochs=800
+  epochs=400
 )
 
 # draw loss
 plot_loss(history)
 
 # test
-# test_results = {}
-# test_results['dnn_model'] = dnn_model.evaluate(test_features, test_labels, verbose=0)
+test_results = {}
+test_results['dnn_model'] = dnn_model.evaluate(test_features, test_labels, verbose=0)
 # predictions
-# test_predictions = dnn_model.predict(test_features).flatten()
-# plot_prediction(test_predictions, test_labels)
+pd.DataFrame(test_results, index=['Mean absolute error [RealNdpxCost]']).T
+test_predictions = dnn_model.predict(test_features).flatten()
+plot_prediction(test_predictions, test_labels)
+
+# overall plotting
 prediction_results = {}
 dataset_labels = dataset.pop('RealNdpxCost')
 prediction_results['dnn_model'] = dnn_model.evaluate(dataset, dataset_labels, verbose=0)
 print(prediction_results)
 pd.DataFrame(prediction_results, index=['Mean absolute error [RealNdpxCost]']).T
 dataset_predictions = dnn_model.predict(dataset).flatten()
-plot_prediction(dataset_predictions, dataset_labels)
-
 plot_all(history, dataset_predictions, dataset_labels)
 
 # save model
