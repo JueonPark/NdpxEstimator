@@ -8,20 +8,7 @@ from sklearn.utils import shuffle
 
 from Dataset import DatasetManager
 from Model import build_and_compile_model
-
-def plot_prediction(test_predictions, test_labels):
-  plt.clf()
-  plt.axes(aspect='equal')
-  plt.scatter(test_predictions, test_labels, c="#225ea8")
-  plt.xlabel('Predictions [Predicted Ndpx Cost]')
-  plt.ylabel('True Values [Real Ndpx Cost]')
-  lims = [0, 1000000]
-  plt.xlim(lims)
-  plt.ylim(lims)
-  plt.plot(lims, lims)
-  plt.tight_layout()
-  plt.show()
-  plt.savefig("prediction.pdf")
+from plot import *
 
 
 # Data to fetch from the workbook:
@@ -60,7 +47,7 @@ dnn_model = tf.keras.models.load_model("dnn_model")
 # test
 test_results = {}
 test_results['dnn_model'] = dnn_model.evaluate(test_features, test_labels, verbose=0)
-print(test_results)
+print(f"test_results: {test_results}")
 
 pd.DataFrame(test_results, index=['Mean absolute error [RealNdpxCost]']).T
 
