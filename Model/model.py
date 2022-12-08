@@ -37,8 +37,8 @@ def build_and_compile_model(norm):
   # loss_fn = tf.keras.losses.CategoricalCrossentropy()
   # loss_fn = tf.keras.losses.MeanSquaredError()
   # loss_fn = tf.keras.losses.MeanAbsolutePercentageError()
-  # loss_fn = tf.keras.losses.MeanSquaredLogarithmicError() # not bad
-  loss_fn = tf.keras.losses.MeanAbsoluteError() # default
+  loss_fn = tf.keras.losses.MeanSquaredLogarithmicError() # not bad
+  # loss_fn = tf.keras.losses.MeanAbsoluteError() # default
   model.compile(loss=loss_fn,
                 optimizer=tf.keras.optimizers.Adam(0.001))
   return model

@@ -1,7 +1,10 @@
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
-LOSS_LIMIT = 200000 # 60 for MSLE, 200000 for MAE
+# baseline dataset: 60 for MSLE, 200000 for MAE
+# new dataset: 100 for MSLE, 700000 for MAE
+LOSS_LIMIT = 100
+PREDICTION_LIMIT = 1000000
 
 def plot_loss(history):
   plt.plot(history.history['loss'], label='loss', color='#225ea8')
@@ -21,7 +24,7 @@ def plot_prediction(test_predictions, test_labels):
   plt.scatter(test_predictions, test_labels, c='#225ea8')
   plt.xlabel('Predictions [Predicted NDPX Cost]')
   plt.ylabel('True Values [Real NDPX Cost]')
-  lims = [0, 1000000]
+  lims = [0, PREDICTION_LIMIT]
   plt.xlim(lims)
   plt.ylim(lims)
   plt.plot(lims, lims)
@@ -57,7 +60,7 @@ def plot_all(history, test_predictions, test_labels):
   pred_ax.scatter(test_predictions, test_labels, c='#225ea8')
   pred_ax.set_xlabel('Predicted NDPX Cycle', fontsize=28)
   pred_ax.set_ylabel('Real NDPX Cycle', fontsize=28)
-  lims = [0, 1000000]
+  lims = [0, PREDICTION_LIMIT]
   pred_ax.set_xlim(lims)
   pred_ax.set_ylim(lims)
   def millions(x, pos):

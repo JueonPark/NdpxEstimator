@@ -28,7 +28,8 @@ np.set_printoptions(precision=3, suppress=True) # for easier read
 # dataset = dataset[1:]
 
 # else
-dataset = DatasetManager.fetch_csv_data()
+# dataset = DatasetManager.fetch_csv_data()
+dataset = DatasetManager.fetch_data("Dataset/new_ndpx_dataset.csv")
 
 print(dataset)
 
@@ -61,7 +62,7 @@ history = dnn_model.fit(
   train_labels,
   validation_split=0.25,
   verbose=1,
-  epochs=200
+  epochs=150
 )
 
 # draw loss
