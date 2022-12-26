@@ -23,7 +23,7 @@ The NdpxEstimator estimates the performance of NdpxKernel based on the:
 As you see, it is just a simple regression model.
 
 ## Datasets
-I manually collected all the data from the previous experiments. The experiments were held on BERT Large, BERT Base, Resnet18, MobileNet v2, Transformer Base, and Vision Transformer.
+I manually collected all the data from the previous experiments. The experiments were held on Resnet18 and MobileNet v2.
 
 ## Model
 Currently just using a bunch of dense layers stacked
