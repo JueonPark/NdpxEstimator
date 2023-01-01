@@ -3,7 +3,7 @@ from matplotlib.ticker import FuncFormatter
 
 # baseline dataset: 60 for MSLE, 200000 for MAE
 # new dataset: 100 for MSLE, 700000 for MAE
-LOSS_LIMIT = 100
+LOSS_LIMIT = 60
 PREDICTION_LIMIT = 1000000
 
 def plot_loss(history):
@@ -17,6 +17,7 @@ def plot_loss(history):
   plt.tight_layout()
   plt.show()
   plt.savefig("train_loss.pdf")
+  plt.savefig("train_loss.png")
 
 def plot_prediction(test_predictions, test_labels):
   plt.clf()
@@ -30,7 +31,8 @@ def plot_prediction(test_predictions, test_labels):
   plt.plot(lims, lims)
   plt.tight_layout()
   plt.show()
-  plt.savefig("train_prediction.pdf")
+  plt.savefig("prediction.pdf")
+  plt.savefig("prediction.png")
 
 def plot_all(history, test_predictions, test_labels):
   plt.clf()
@@ -80,3 +82,4 @@ def plot_all(history, test_predictions, test_labels):
   pred_ax.plot(lims, lims)
   plt.show()
   plt.savefig("overall_results.pdf")
+  plt.savefig("overall_results.png")

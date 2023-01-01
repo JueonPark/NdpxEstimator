@@ -27,6 +27,7 @@ from plot import *
 
 # else
 dataset = DatasetManager.fetch_csv_data()
+dataset = dataset.drop(dataset[dataset.RealNdpxCost > 1000000].index)
 
 print(dataset)
 
@@ -55,5 +56,10 @@ pd.DataFrame(test_results, index=['Mean absolute error [RealNdpxCost]']).T
 test_predictions = dnn_model.predict(test_features).flatten()
 plot_prediction(test_predictions, test_labels)
 
-# save model
-dnn_model.save('dnn_model')
+# get R2 score
+print(type(test_labels))
+print(type(test_predictions))
+metric = tfa.metrics.r_square.RSquare()
+metric.update_state(test_labels, test_predictions)
+result = metric.result()
+print(f"R2 Score: {result.numpy()}")

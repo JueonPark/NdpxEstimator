@@ -62,7 +62,7 @@ history = dnn_model.fit(
   train_labels,
   validation_split=0.25,
   verbose=1,
-  epochs=150
+  epochs=1000
 )
 
 # draw loss
@@ -74,6 +74,12 @@ test_results['dnn_model'] = dnn_model.evaluate(test_features, test_labels, verbo
 # predictions
 pd.DataFrame(test_results, index=['Mean absolute error [RealNdpxCost]']).T
 test_predictions = dnn_model.predict(test_features).flatten()
+# get R2 score
+metric = tfa.metrics.r_square.RSquare()
+metric.update_state(test_labels, test_predictions)
+result = metric.result()
+print(f"R2 Score: {result.numpy()}")
+# plot
 plot_prediction(test_predictions, test_labels)
 
 # overall plotting
