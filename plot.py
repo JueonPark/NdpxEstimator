@@ -50,7 +50,7 @@ def plot_all(history, test_predictions, test_labels):
     'The two args are the value and tick position'
     return '%dK' % (x * 1e-3)
   formatter = FuncFormatter(killo)
-  loss_ax.yaxis.set_major_formatter(formatter)
+  # loss_ax.yaxis.set_major_formatter(formatter)
   loss_ax.set_ylim([0, LOSS_LIMIT])
   loss_ax.set_xlabel('Epoch', fontsize=28)
   loss_ax.set_ylabel('Error', fontsize=28)
@@ -70,8 +70,8 @@ def plot_all(history, test_predictions, test_labels):
     return '%1.1fM' % (x * 1e-6)
 
   formatter = FuncFormatter(millions)
-  pred_ax.xaxis.set_major_formatter(formatter)
-  pred_ax.yaxis.set_major_formatter(formatter)
+  # pred_ax.xaxis.set_major_formatter(formatter)
+  # pred_ax.yaxis.set_major_formatter(formatter)
   # remove the first and the last labels
   xticks = pred_ax.xaxis.get_major_ticks()
   xticks[0].set_visible(False)
