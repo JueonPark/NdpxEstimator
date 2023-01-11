@@ -26,7 +26,7 @@ from plot import *
 # dataset = dataset[1:]
 
 # else
-dataset = DatasetManager.fetch_csv_data()
+dataset = DatasetManager.fetch_data("Dataset/new_ndpx_dataset.csv")
 dataset = dataset.drop(dataset[dataset.RealNdpxCost > 1000000].index)
 
 print(dataset)
