@@ -62,7 +62,7 @@ history = dnn_model.fit(
   train_labels,
   validation_split=0.25,
   verbose=1,
-  epochs=1000
+  epochs=500
 )
 
 # draw loss
