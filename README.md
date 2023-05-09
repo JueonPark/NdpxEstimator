@@ -1,4 +1,17 @@
 # NDPX Performance Estimator
+To cite XLA-NDP, cite
+``` bibtex
+@ARTICLE{10079098,
+  author={Park, Jueon and Sung, Hyojin},
+  journal={IEEE Computer Architecture Letters}, 
+  title={XLA-NDP: Efficient Scheduling and Code Generation for DL Model Training on Near-Data Processing Memory}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={1-4},
+  doi={10.1109/LCA.2023.3261136}}
+```
+
 To cite NDPX, cite
 ``` bibtex
 @ARTICLE{9609620,
